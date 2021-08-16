@@ -82,7 +82,7 @@ public class AdminResource {
                 System.out.println(rm);
             }
         }
-        AdminMenu.adminMenu();
+//        AdminMenu.adminMenu();
     }
 
     public void getAllCustomers(){
@@ -93,7 +93,7 @@ public class AdminResource {
             for(Map.Entry<String, Customer> rm:CustomerService.allCustomers.entrySet()){
                 System.out.println(rm);
             }
-            AdminMenu.adminMenu();
+//            AdminMenu.adminMenu();
         }
     }
 

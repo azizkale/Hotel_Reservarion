@@ -1,6 +1,10 @@
 package Menus;
 
+import api.AdminResource;
+import api.HotelResource;
+import model.Customer;
 import service.CustomerService;
+import service.ReservationService;
 
 import java.util.Scanner;
 
@@ -19,7 +23,84 @@ public class MainMenu {
 
 
         if(number.equalsIgnoreCase("1")){
-            System.out.println("main menu option 1");
+            // Account check
+            System.out.println("Do you have an acount?  Y/N");
+            Scanner scanner1 = new Scanner(System.in);
+            String accountResponse1 = scanner1.nextLine();
+           switch(accountResponse1) {
+               case "Y":
+                   try{
+                       // Creating Reservaiton=========
+                       // Getting Customer
+                       System.out.println("Please enter your email:");
+                       Scanner scanner2 = new Scanner(System.in);
+                       String email = scanner2.nextLine();
+                       Customer customer = HotelResource.getCustomer(email);
+                        if(customer != null){
+                            // Selecting a room
+                            System.out.println("Please select a room:");
+                            AdminResource.getAllRooms();
+                            Scanner scanner3 = new Scanner(System.in);
+                            String roomId = scanner3.nextLine();
+
+                            // Entering checkin-out dates
+                            System.out.println("Please enter checkin date: (in format 21-12-2021)");
+                            Scanner scanner4 = new Scanner(System.in);
+                            String checkInDate = scanner4.nextLine();
+
+                            System.out.println("Please enter checkout date: (in format 21-12-2021)");
+                            Scanner scanner5 = new Scanner(System.in);
+                            String checkOutDate = scanner5.nextLine();
+
+                            // Creating Reservation
+                            ReservationService.reserveARoom(
+                                    CustomerService.allCustomers.get(email),
+                                    AdminResource.allRooms.get(roomId),
+                                    checkInDate,
+                                    checkOutDate
+                            );
+                        }
+                        else
+                            System.out.println("The email is not regsitered!");
+
+                   } catch (Exception e) {
+                       e.printStackTrace();
+                   }
+                   break;
+               case "N":
+                   try {
+                       System.out.println("Create an account please!  Y/N") ;
+                       Scanner scanner6 = new Scanner(System.in);
+                       String accountResponse2 = scanner6.nextLine();
+
+                       switch (accountResponse2){
+                           case "Y":
+                               System.out.println("Please enter an email:  (in format jeffry@mysite.com)");
+                               Scanner scanner7 = new Scanner(System.in);
+                               String email = scanner7.nextLine();
+
+                               System.out.println("Please enter your first name:");
+                               Scanner scanner8 = new Scanner(System.in);
+                               String firstName = scanner8.nextLine();
+
+                               System.out.println("Please enter your last name:");
+                               Scanner scanner9 = new Scanner(System.in);
+                               String lastName = scanner9.nextLine();
+
+                               CustomerService.addCustomer(email,firstName,lastName);
+                               MainMenu.mainMenu();
+
+                               break;
+                           case "N":
+                               MainMenu.mainMenu();
+                               break;
+                       }
+                   }
+                   catch (Exception e) {
+                       e.printStackTrace();
+                   }
+
+           }
         }
         if(number.equalsIgnoreCase("2")){
             System.out.println("aziz kale");
@@ -39,6 +120,7 @@ public class MainMenu {
             System.out.println("enter your last name please:");
             Scanner scanner3 = new Scanner(System.in);
             String lastName = scanner3.nextLine();
+
             CustomerService.addCustomer(email,firstName,lastName);
         }
         if(number.equalsIgnoreCase("4")){

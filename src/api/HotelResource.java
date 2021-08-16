@@ -11,12 +11,16 @@ import java.util.Date;
 
 public class HotelResource {
     public static Customer getCustomer(String email){
-        System.out.println(CustomerService.allCustomers.get("email"));
-        return CustomerService.allCustomers.get("email");
+        Customer customer = CustomerService.allCustomers.get(email);
+        if(customer!= null){
+            return customer;
+        }
+        else
+            return null;
     }
 
     public static void createACustomer(String email, String firstName, String lastName){
-
+        CustomerService.addCustomer(email,firstName,lastName);
     }
     public static Reservation bookARoom(String customerEmail, IRoom room, Date checkInDate, Date checkOutDate){
         return null;
@@ -27,11 +31,7 @@ public class HotelResource {
     }
 
     public static Collection<IRoom> findARoom(Date chechIn, Date checkOut){
-//        for(Map.Entry<String, IRoom> room:AdminResource.allRooms.entrySet()){
-//            if(room.getValue().isFree()) {
-//                System.out.println(room);
-//            }
-//        }
+
         return null;
     }
 }

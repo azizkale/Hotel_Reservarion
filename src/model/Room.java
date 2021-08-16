@@ -1,5 +1,8 @@
 package model;
 
+import service.ReservationService;
+
+import java.util.Date;
 import java.util.regex.Pattern;
 
 public class Room implements IRoom {
@@ -38,8 +41,14 @@ public class Room implements IRoom {
     }
 
     @Override
-    public boolean isFree() {
-        return this.isFree;
+    public boolean isFree(Date checkInDate, Date checkOutDate) {
+       Reservation reservation = ReservationService.allReservations.get(this.roomNumber);
+
+       if(checkInDate.after(reservation.checkOutDate)){
+           this.isFree = true;
+       }
+        this.isFree = false;
+       return this.isFree;
     }
 
     @Override
