@@ -31,6 +31,9 @@ public class CustomerService {
     }
 
     public static void getAllCustomers(){
+        allCustomers.put("azizkale@hotmail.com",new Customer("aziz","kale","azizkale@hotmail.com"));
+        allCustomers.put("aziz@gmail.com",new Customer("aziz","kale","aziz@gmail.com"));
+
         if(CustomerService.allCustomers.size()==0) {
             System.out.println("No Account Added Yet!");
             AdminMenu.adminMenu();
@@ -41,6 +44,4 @@ public class CustomerService {
             AdminMenu.adminMenu();
         }
     }
-
-
 }

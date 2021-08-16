@@ -19,9 +19,11 @@ public class ReservationService {
     public static void addRoom(IRoom room){
 
     }
+
     public static IRoom getARoom(String roomId){
         return null;
     }
+
     public static Reservation reserveARoom(Customer customer, IRoom room, Date checkInDate, Date checkOutDate){
         return null;
     }

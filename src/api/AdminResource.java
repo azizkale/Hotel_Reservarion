@@ -72,6 +72,9 @@ public class AdminResource {
     }
 
     public static void getAllRooms(){
+        allRooms.put("121",new Room("121",RoomType.SINGLE,100.0));
+        allRooms.put("122",new Room("122",RoomType.DOUBLE,200.0));
+
         if(allRooms.size()==0)
             System.out.println("No Room Added Yet!");
         else{
@@ -97,18 +100,4 @@ public class AdminResource {
     public void displayAllReservations(){
 
     }
-
-//    public void WouldYouLikeToGo(){
-//        System.out.println("For main menu press M or admin menu press A?");
-//        Scanner scanner2 = new Scanner(System.in);
-//        String response = scanner2.nextLine();
-//
-//        if(response.equalsIgnoreCase("M")){
-//            MainMenu.mainMenu();
-//        }
-//        if(response.equalsIgnoreCase("A")){
-//            AdminMenu.adminMenu();
-//        }
-//    }
-
 }
