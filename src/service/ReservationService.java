@@ -5,7 +5,7 @@ import model.Customer;
 import model.IRoom;
 import model.Reservation;
 
-import java.text.ParseException;
+import java.text.DateFormat;
 import java.util.*;
 
 public class ReservationService {
@@ -21,13 +21,15 @@ public class ReservationService {
         return null;
     }
 
-    public static Reservation reserveARoom(Customer customer, IRoom room, Date checkInDate, Date checkOutDate) throws ParseException {
+    public static Reservation reserveARoom(Customer customer, IRoom room, Date checkInDate, Date checkOutDate) {
         // Creating reservation
         Reservation reservation = new Reservation(customer,getARoom(room.getRoomNumber()),
               checkInDate, checkOutDate);
 
         // Adding the resevervation to the List
-        allReservations.put(room.getRoomNumber(), reservation);
+        allReservations.put(room.getRoomNumber()+
+                " checkin date: "+ DateFormat.getDateInstance().format(checkInDate) +
+                " checkout date: " + DateFormat.getDateInstance().format(checkOutDate), reservation);
         System.out.println("Reservation created succesfully!");
         return reservation;
     }
@@ -35,20 +37,18 @@ public class ReservationService {
     public static Collection<IRoom> findRoom(Date checkInDate, Date checkOutDate){
         List<IRoom> availableRooms = new ArrayList<>();
         for(Map.Entry<String, IRoom> room:AdminResource.allRooms.entrySet()){
-//           if(room.getValue().isFree(checkInDate,checkOutDate)){
-//               availableRooms.add(room.getValue());
-               System.out.println(room.getValue() +" - "+ room.getValue().isFree(checkInDate,checkOutDate));
-//           }
+           if(room.getValue().isFree(checkInDate,checkOutDate)){
+               availableRooms.add(room.getValue());
+               System.out.println(room.getValue());
+           }
         }
         return availableRooms;
     }
     public Collection<Reservation> getCustomersReservation(Customer customer){
-       return null;
+        return null;
     }
     public static void printAllReservation(){
-        for(Map.Entry<String,Reservation> res:allReservations.entrySet()){
-            System.out.println(res);
-        }
+
     }
 
 }

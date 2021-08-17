@@ -4,9 +4,9 @@ import model.Customer;
 import model.IRoom;
 import model.Reservation;
 import service.CustomerService;
+import service.ReservationService;
 
-import java.util.Collection;
-import java.util.Date;
+import java.util.*;
 
 
 public class HotelResource {
@@ -27,7 +27,14 @@ public class HotelResource {
     }
 
     public static Collection<Reservation> getCustomerReservations(String customerEmail){
-        return null;
+        List<Reservation> customerReservations = new ArrayList<>();
+        for(Map.Entry<String, Reservation> reservation:ReservationService.allReservations.entrySet()) {
+           if(reservation.getValue().customer.getEmail().equals(customerEmail)){
+               customerReservations.add(reservation.getValue());
+               System.out.println(reservation);
+           }
+       }
+        return customerReservations;
     }
 
     public static Collection<IRoom> findARoom(Date chechIn, Date checkOut){

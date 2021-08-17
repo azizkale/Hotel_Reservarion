@@ -18,6 +18,7 @@ public class MainMenu {
         System.out.println("3.Create and account");
         System.out.println("4.Admin");
         System.out.println("5.Exit");
+        System.out.println("------------------");
 
         Scanner scanner = new Scanner(System.in);
         String number = scanner.nextLine();
@@ -109,7 +110,10 @@ public class MainMenu {
            }
         }
         if(number.equalsIgnoreCase("2")){
-            System.out.println("aziz kale");
+            System.out.println("Please enter your email:");
+            Scanner scanner1 = new Scanner(System.in);
+            String email = scanner1.nextLine();
+            HotelResource.getCustomerReservations(email);
         }
         if(number.equalsIgnoreCase("3")){
             // email

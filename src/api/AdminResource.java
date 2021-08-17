@@ -1,11 +1,9 @@
 package api;
 
 import Menus.AdminMenu;
-import model.Customer;
-import model.IRoom;
-import model.Room;
-import model.RoomType;
+import model.*;
 import service.CustomerService;
+import service.ReservationService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -80,7 +78,6 @@ public class AdminResource {
                 System.out.println(rm);
             }
         }
-//        AdminMenu.adminMenu();
     }
 
     public void getAllCustomers(){
@@ -91,11 +88,12 @@ public class AdminResource {
             for(Map.Entry<String, Customer> rm:CustomerService.allCustomers.entrySet()){
                 System.out.println(rm);
             }
-//            AdminMenu.adminMenu();
         }
     }
 
-    public void displayAllReservations(){
-
+    public static void displayAllReservations(){
+        for(Map.Entry<String, Reservation> res: ReservationService.allReservations.entrySet()){
+            System.out.println(res);
+        }
     }
 }

@@ -2,7 +2,6 @@ package Menus;
 
 import api.AdminResource;
 import service.CustomerService;
-import service.ReservationService;
 
 import java.util.Scanner;
 
@@ -15,7 +14,7 @@ public class AdminMenu {
         System.out.println("3.See all reservations");
         System.out.println("4.Add a room");
         System.out.println("5.Back to main menu");
-
+        System.out.println("------------------");
         Scanner scanner = new Scanner(System.in);
         String number = scanner.nextLine();
 
@@ -26,7 +25,7 @@ public class AdminMenu {
             AdminResource.getAllRooms();
         }
         if(number.equalsIgnoreCase("3")){
-            ReservationService.printAllReservation();
+           AdminResource.displayAllReservations();
         }
         if(number.equalsIgnoreCase("4")){
             AdminResource.addRoom(AdminResource.allRooms);
