@@ -72,8 +72,6 @@ public class AdminResource {
     }
 
     public static void getAllRooms(){
-        allRooms.put("121",new Room("121",RoomType.SINGLE,100.0));
-        allRooms.put("122",new Room("122",RoomType.DOUBLE,200.0));
 
         if(allRooms.size()==0)
             System.out.println("No Room Added Yet!");

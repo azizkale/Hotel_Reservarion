@@ -6,6 +6,7 @@ import model.Customer;
 import service.CustomerService;
 import service.ReservationService;
 
+import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
 public class MainMenu {
@@ -29,6 +30,7 @@ public class MainMenu {
             String accountResponse1 = scanner1.nextLine();
            switch(accountResponse1) {
                case "Y":
+               case "y":
                    try{
                        // Creating Reservaiton=========
                        // Getting Customer
@@ -37,12 +39,6 @@ public class MainMenu {
                        String email = scanner2.nextLine();
                        Customer customer = HotelResource.getCustomer(email);
                         if(customer != null){
-                            // Selecting a room
-                            System.out.println("Please select a room:");
-                            AdminResource.getAllRooms();
-                            Scanner scanner3 = new Scanner(System.in);
-                            String roomId = scanner3.nextLine();
-
                             // Entering checkin-out dates
                             System.out.println("Please enter checkin date: (in format 21-12-2021)");
                             Scanner scanner4 = new Scanner(System.in);
@@ -52,12 +48,21 @@ public class MainMenu {
                             Scanner scanner5 = new Scanner(System.in);
                             String checkOutDate = scanner5.nextLine();
 
+                            // Selecting a room
+                            System.out.println("Please select a room number:");
+                            ReservationService.findRoom( new SimpleDateFormat("dd-MM-yyyy").parse(checkInDate),
+                                    new SimpleDateFormat("dd-MM-yyyy").parse(checkOutDate));
+                            Scanner scanner3 = new Scanner(System.in);
+                            String roomId = scanner3.nextLine();
+
+
+
                             // Creating Reservation
                             ReservationService.reserveARoom(
                                     CustomerService.allCustomers.get(email),
                                     AdminResource.allRooms.get(roomId),
-                                    checkInDate,
-                                    checkOutDate
+                                    new SimpleDateFormat("dd-MM-yyyy").parse(checkInDate),
+                                    new SimpleDateFormat("dd-MM-yyyy").parse(checkOutDate)
                             );
                         }
                         else
@@ -68,6 +73,7 @@ public class MainMenu {
                    }
                    break;
                case "N":
+               case "n":
                    try {
                        System.out.println("Create an account please!  Y/N") ;
                        Scanner scanner6 = new Scanner(System.in);

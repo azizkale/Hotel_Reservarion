@@ -18,9 +18,9 @@ public class Room implements IRoom {
         if(!pattern.matcher(roomNumber).matches()){
             throw new IllegalArgumentException("Invalid room number");
         }
+
         this.roomNumber = roomNumber;
         this.price = price;
-
         this.roomType = roomType;
         this.isFree = true;
     }
@@ -44,11 +44,18 @@ public class Room implements IRoom {
     public boolean isFree(Date checkInDate, Date checkOutDate) {
        Reservation reservation = ReservationService.allReservations.get(this.roomNumber);
 
-       if(checkInDate.after(reservation.checkOutDate)){
+       if(reservation == null){
            this.isFree = true;
        }
-        this.isFree = false;
-       return this.isFree;
+       else if(reservation != null){
+           if((checkInDate.before(reservation.checkInDate) && checkOutDate.before(reservation.checkInDate))
+              || checkInDate.after(reservation.checkOutDate)){
+               this.isFree = true;
+           }
+           else
+               this.isFree = false;
+       }
+        return this.isFree;
     }
 
     @Override
