@@ -3,11 +3,13 @@ package Menus;
 import api.AdminResource;
 import api.HotelResource;
 import model.Customer;
+import model.IRoom;
 import service.CustomerService;
 import service.ReservationService;
 
 import java.text.SimpleDateFormat;
 import java.util.Scanner;
+import java.util.Set;
 
 public class MainMenu {
 
@@ -50,21 +52,30 @@ public class MainMenu {
                             String checkOutDate = scanner5.nextLine();
 
                             // Selecting a room
-                            System.out.println("Please select a room number:");
-                            ReservationService.findRoom( new SimpleDateFormat("dd-MM-yyyy").parse(checkInDate),
+                            Set<IRoom> availableRooms = ReservationService.findRoom( new SimpleDateFormat("dd-MM-yyyy").parse(checkInDate),
                                     new SimpleDateFormat("dd-MM-yyyy").parse(checkOutDate));
-                            Scanner scanner3 = new Scanner(System.in);
-                            String roomId = scanner3.nextLine();
 
+                            if(availableRooms.size() > 0){
+                                System.out.println("Please select a room number:");
+                                for(IRoom room:availableRooms){
+                                    System.out.println(room);
+                                }
+                                Scanner scanner3 = new Scanner(System.in);
+                                String roomId = scanner3.nextLine();
 
+                                // Creating Reservation
+                                ReservationService.reserveARoom(
+                                        CustomerService.allCustomers.get(email),
+                                        AdminResource.allRooms.get(roomId),
+                                        new SimpleDateFormat("dd-MM-yyyy").parse(checkInDate),
+                                        new SimpleDateFormat("dd-MM-yyyy").parse(checkOutDate)
+                                );
 
-                            // Creating Reservation
-                            ReservationService.reserveARoom(
-                                    CustomerService.allCustomers.get(email),
-                                    AdminResource.allRooms.get(roomId),
-                                    new SimpleDateFormat("dd-MM-yyyy").parse(checkInDate),
-                                    new SimpleDateFormat("dd-MM-yyyy").parse(checkOutDate)
-                            );
+                            }else{
+                                System.out.println("There is no available room for your reservation period!");
+                                MainMenu.mainMenu();
+                            }
+
                         }
                         else
                             System.out.println("The email is not regsitered!");
