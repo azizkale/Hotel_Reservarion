@@ -22,7 +22,7 @@ public class AdminResource {
     public static void addRoom( Map<String, IRoom> allRooms){
         try {
             // Room Number
-            System.out.println("Define A Room Number:");
+            System.out.println("Define A Room Number:  (only three digit please)");
             Scanner scanner1 = new Scanner(System.in);
             String roomNumber = scanner1.nextLine();
 
