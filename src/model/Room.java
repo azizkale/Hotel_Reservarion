@@ -12,7 +12,7 @@ public class Room implements IRoom {
     boolean isFree;
     List<Reservation> reservations = new ArrayList<>();
 
-    String regexRoomNumber = "\\d+";
+    String regexRoomNumber = "\\d{3}";
     Pattern pattern = Pattern.compile(regexRoomNumber);
 
     public Room(String roomNumber, RoomType roomType, double price){
