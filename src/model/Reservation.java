@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class Reservation {
     public Customer customer;
-    IRoom room;
+    public IRoom room;
     public Date checkInDate;
     public Date checkOutDate;
 

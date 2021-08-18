@@ -1,8 +1,8 @@
 package model;
 
-import service.ReservationService;
-
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class Room implements IRoom {
@@ -10,6 +10,7 @@ public class Room implements IRoom {
     double price;
     RoomType roomType;
     boolean isFree;
+    List<Reservation> reservations = new ArrayList<>();
 
     String regexRoomNumber = "\\d+";
     Pattern pattern = Pattern.compile(regexRoomNumber);
@@ -22,8 +23,13 @@ public class Room implements IRoom {
         this.roomNumber = roomNumber;
         this.price = price;
         this.roomType = roomType;
-        this.isFree = true;
     }
+
+    public List<Reservation> addReservationToTheRoom(Reservation reservation){
+        this.reservations.add(reservation);
+        return this.reservations;
+    }
+
 
     @Override
     public Double getRoomPrice() {
@@ -42,20 +48,12 @@ public class Room implements IRoom {
 
     @Override
     public boolean isFree(Date checkInDate, Date checkOutDate) {
-       Reservation reservation = ReservationService.allReservations.get(this.roomNumber);
+        return true;
+    }
 
-       if(reservation == null){
-           this.isFree = true;
-       }
-       else if(reservation != null){
-           if((checkInDate.before(reservation.checkInDate) && checkOutDate.before(reservation.checkInDate))
-              || checkInDate.after(reservation.checkOutDate)){
-               this.isFree = true;
-           }
-           else
-               this.isFree = false;
-       }
-        return this.isFree;
+    @Override
+    public List<Reservation> getReservations(){
+        return this.reservations;
     }
 
     @Override

@@ -4,6 +4,7 @@ import api.AdminResource;
 import model.Customer;
 import model.IRoom;
 import model.Reservation;
+import model.Room;
 
 import java.text.DateFormat;
 import java.util.*;
@@ -18,7 +19,7 @@ public class ReservationService {
 
     public static IRoom getARoom(String roomId){
         AdminResource.allRooms.get(roomId);
-        return null;
+        return  AdminResource.allRooms.get(roomId);
     }
 
     public static Reservation reserveARoom(Customer customer, IRoom room, Date checkInDate, Date checkOutDate) {
@@ -31,23 +32,46 @@ public class ReservationService {
                 " checkin date: "+ DateFormat.getDateInstance().format(checkInDate) +
                 " checkout date: " + DateFormat.getDateInstance().format(checkOutDate), reservation);
         System.out.println("Reservation created succesfully!");
+        addReservationToTheRoom(room.getRoomNumber(),reservation);
         return reservation;
     }
 
-    public static Collection<IRoom> findRoom(Date checkInDate, Date checkOutDate){
-        List<IRoom> availableRooms = new ArrayList<>();
-        for(Map.Entry<String, IRoom> room:AdminResource.allRooms.entrySet()){
-           if(room.getValue().isFree(checkInDate,checkOutDate)){
-               availableRooms.add(room.getValue());
-               System.out.println(room.getValue());
-           }
-        }
+    public static Set<IRoom> findRoom(Date checkInDate, Date checkOutDate){
+       Set<IRoom> availableRooms = new HashSet<IRoom>();
+
+       for(Map.Entry<String, IRoom> roomSet:AdminResource.allRooms.entrySet()){ // check all rooms
+               IRoom room = roomSet.getValue();
+               if(room.getReservations().size() > 0){
+                   for(Reservation res:room.getReservations()){ // get romm's all reservations
+                       if(checkInDate.before(res.checkInDate) && checkOutDate.before(res.checkInDate)){ //match reservations' dates of each rooms with given dates
+//                           System.out.println(res.room);
+                           availableRooms.add(res.room);
+                       }
+                       else if(checkInDate.after(res.checkOutDate) && checkOutDate.after(res.checkOutDate)){
+//                           System.out.println(res.room);
+                           availableRooms.add(res.room);
+                       }
+                   }
+               }
+               else if(room.getReservations().size() == 0){
+//                   System.out.println(room);
+                   availableRooms.add(room);
+               }
+
+          }
         return availableRooms;
     }
+
     public Collection<Reservation> getCustomersReservation(Customer customer){
         return null;
     }
     public static void printAllReservation(){
+
+    }
+
+    public static List<Reservation> addReservationToTheRoom(String roomId, Reservation reservation){
+        Room room = (Room) AdminResource.allRooms.get(roomId);
+       return room.addReservationToTheRoom(reservation);
 
     }
 
